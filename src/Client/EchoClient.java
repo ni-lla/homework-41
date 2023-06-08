@@ -1,6 +1,7 @@
 package Client;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
@@ -10,12 +11,12 @@ public class EchoClient {
     private final int port;
     private final String host;
 
-    private EchoClient(int port, String host){
+    private EchoClient(int port, String host) {
         this.port = port;
         this.host = host;
     }
 
-    public static EchoClient connectTo(int port){
+    public static EchoClient connectTo(int port) {
         var localhost = "127.0.0.1";
         return new EchoClient(port, localhost);
     }
@@ -35,6 +36,9 @@ public class EchoClient {
                     if ("bye".equalsIgnoreCase(message)) {
                         return;
                     }
+                    var scanner2 = new Scanner(new InputStreamReader(socket.getInputStream(), "UTF-8"));
+                        var msg = scanner2.nextLine().strip();
+                        System.out.printf("Server send: %s%n", msg);
                 }
             }
         } catch (NoSuchElementException ex) {
