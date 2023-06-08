@@ -2,6 +2,7 @@ package Server;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.NoSuchElementException;
@@ -36,6 +37,10 @@ public class EchoServer {
             while (true) {
                 var message = scanner.nextLine().strip();
                 System.out.printf("Got: %s%n", message);
+                String reversedMessage = new StringBuilder(message).reverse().toString();
+                var send = new PrintWriter(socket.getOutputStream(), true);
+                send.println(reversedMessage);
+                System.out.println("Reversing message: " + reversedMessage);
                 if (message.equalsIgnoreCase("bye")) {
                     System.out.println("Bye bye");
                     return;
